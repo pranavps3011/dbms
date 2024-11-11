@@ -1,0 +1,51 @@
+create table tborrower (
+  roll_no int primary key,
+  nm varchar(20),
+  DateOfIssue Date,
+  NameOfBook varchar(30),
+  status varchar(1)
+);
+
+create table tfine (
+  roll_no int references tborrower(roll_no),
+  fDate Date,
+  amt int
+);
+
+
+
+set serveroutput on;
+
+INSERT INTO tborrower VALUES (1, 'John Doe', TO_DATE('2024-10-01', 'YYYY-MM-DD'), 'Introduction to SQL', 'I');
+INSERT INTO tborrower VALUES (2, 'Jane Smith', TO_DATE('2024-10-25', 'YYYY-MM-DD'), 'PL/SQL Programming', 'R');
+INSERT INTO tborrower VALUES (3, 'Alice Brown', TO_DATE('2024-11-05', 'YYYY-MM-DD'), 'Database Design', 'I');
+
+
+create or replace procedure checkfine(vrno in number,vnmb in varchar2 ) as
+  vDateofissue tborrower.dateofissue%type;
+  noOfDays number :=0;
+  fine number:=0;
+begin
+  select dateofissue into vDateofissue from tborrower where nameofbook=vnmb and roll_no=vrno and status='I';
+  noOfDays:=sysdate-vDateofissue;
+  Dbms_output.put_line('No of days: ' || noOfDays);
+  
+  if noOfDays>=15 and noOfDays<=30 then
+    fine:=noOfDays*5;
+  elsif noOfDays>30 then
+    fine:=150+((noOfDays-30)*50);
+  end if;
+  
+  Dbms_output.put_line(fine);
+  insert into tfine values(vrno,to_date(sysdate,'DD-MM-YYYY'),fine);
+  update tborrower set status='R' where roll_no=vrno and nameofbook=vnmb;
+  
+  exception
+  when No_Data_Found then
+    Dbms_output.put_line('Not found data');
+end;
+
+
+BEGIN
+  checkfine(&enter_rno, '&enter_book_nm');
+END;

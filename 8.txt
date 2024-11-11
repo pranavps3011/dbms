@@ -1,0 +1,45 @@
+create table tstud_marks(
+roll_no number,
+name varchar(20),
+total_marks number
+);
+
+create table tresult(
+roll_no number,
+name varchar(20),
+class varchar(20)
+);
+
+INSERT INTO tstud_marks (roll_no, name, total_marks) VALUES (1, 'A', 995);
+INSERT INTO tstud_marks (roll_no, name, total_marks) VALUES (2, 'B', 825);
+INSERT INTO tstud_marks (roll_no, name, total_marks) VALUES (3, 'C', 100);
+
+
+create or replace procedure checkRes(rno in number) as
+vnm tstud_marks.name%type;
+vmarks tstud_marks.total_marks%type;
+vplace varchar(20);
+begin
+select name,total_marks into vnm,vmarks from tstud_marks where roll_no=rno;
+
+if vmarks>=990 then
+  vplace:='distinction';
+elsif vmarks>=900 then
+  vplace:='first';
+elsif vmarks>=825 then
+  vplace:='Higher';
+end if;
+
+Dbms_output.put_line(vnm ||' '|| vmarks ||' '||vplace);
+
+insert into tresult values(rno,vnm,vplace);
+exception
+  when no_data_found then 
+    dbms_output.put_line('no data');
+end;
+
+begin
+checkRes(&enetr_rno);
+end;
+
+select * from tresult;

@@ -1,0 +1,31 @@
+create table temp (
+empId int primary key,
+empName  varchar(10),
+empSal int,
+empDeptId int references tDept(deptId)
+);
+
+create table tDept 
+(
+  deptId int primary key,
+  deptName varchar(20)
+);
+
+alter table temp modify empName varchar(20) not null;
+
+ALTER TABLE tDept ADD deptLoc VARCHAR(10);
+
+ALTER TABLE tDept modify deptLoc VARCHAR(50) unique;
+
+INSERT INTO tDept VALUES (1, 'HR');
+INSERT INTO tDept VALUES (2, 'Finance');
+INSERT INTO tDept VALUES (3, 'IT');
+
+INSERT INTO temp VALUES (1, 'A', 5000, 1);
+INSERT INTO temp VALUES (2, 'B', 6000, 2);
+INSERT INTO temp VALUES (3, 'C', 5500, 3);
+INSERT INTO temp VALUES (4, 'D', 7000, 1);
+
+
+
+

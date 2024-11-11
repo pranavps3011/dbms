@@ -1,0 +1,64 @@
+create table temployee(
+empnm varchar(20) primary key,
+street varchar(20),
+city varchar(20)
+);
+
+create table tworks(
+empnm varchar(20) references temployee(empnm),
+compnm varchar(20) references tcompany(compnm),
+salary int
+);
+
+create table tcompany(
+compnm varchar(20) primary key,
+city varchar(20)
+);
+
+create table tmanages(
+empnm varchar(20) references temployee(empnm),
+managernm varchar(20)
+);
+
+
+INSERT INTO temployee (empnm, street, city) VALUES ('A', '123 Elm St', 'New York');
+INSERT INTO temployee (empnm, street, city) VALUES ('B', '456 Oak St', 'Los Angeles');
+INSERT INTO temployee (empnm, street, city) VALUES ('C', '789 Pine St', 'Chicago');
+INSERT INTO temployee (empnm, street, city) VALUES ('D', '101 Maple St', 'San Francisco');
+INSERT INTO temployee (empnm, street, city) VALUES ('E', '202 Birch St', 'Austin');
+
+INSERT INTO tcompany (compnm, city) VALUES ('First Bank', 'New York');
+INSERT INTO tcompany (compnm, city) VALUES ('Small Bank', 'Los Angeles');
+INSERT INTO tcompany (compnm, city) VALUES ('Tech Solutions', 'Chicago');
+INSERT INTO tcompany (compnm, city) VALUES ('Global Investments', 'San Francisco');
+INSERT INTO tcompany (compnm, city) VALUES ('MegaCorp', 'Austin');
+
+INSERT INTO tmanages (empnm, managernm) VALUES ('A', 'ManagerA');
+INSERT INTO tmanages (empnm, managernm) VALUES ('B', 'ManagerB');
+INSERT INTO tmanages (empnm, managernm) VALUES ('C', 'ManagerC');
+INSERT INTO tmanages (empnm, managernm) VALUES ('D', 'ManagerD');
+INSERT INTO tmanages (empnm, managernm) VALUES ('E', 'ManagerE');
+
+INSERT INTO tworks (empnm, compnm, salary) VALUES ('A', 'First Bank', 25000);
+INSERT INTO tworks (empnm, compnm, salary) VALUES ('B', 'Small Bank', 18000);
+INSERT INTO tworks (empnm, compnm, salary) VALUES ('C', 'Small Bank', 22000);
+INSERT INTO tworks (empnm, compnm, salary) VALUES ('D', 'First Bank', 15000);
+INSERT INTO tworks (empnm, compnm, salary) VALUES ('E', 'Tech Solutions', 23000);
+
+SELECT * 
+FROM tworks t1
+WHERE t1.compnm = 'First Bank' 
+AND t1.salary >  (SELECT avg(salary) FROM tworks t2 WHERE t2.compnm = 'Small Bank');
+
+create view empdetails as
+select 
+    temployee.empnm,
+    temployee.street,
+    temployee.city,
+    tmanages.managernm from temployee left join tmanages on temployee.empnm=tmanages.empnm;
+
+select * from empdetails;
+
+select * from temployee where city in ('New York');
+
+update tworks set salary=tworks.salary *1.15 where salary<20000 and compnm='First Bank';

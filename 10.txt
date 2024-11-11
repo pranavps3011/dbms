@@ -1,0 +1,55 @@
+CREATE TABLE o_RollCall (
+    roll NUMBER(10),
+    name VARCHAR2(10)
+);
+CREATE TABLE N_RollCall (
+    roll NUMBER(10),
+    name VARCHAR2(10)
+);
+
+
+
+INSERT INTO o_RollCall (roll, name) VALUES (101, 'John');
+INSERT INTO o_RollCall (roll, name) VALUES (102, 'Jane');
+INSERT INTO o_RollCall (roll, name) VALUES (103, 'Jack');
+INSERT INTO o_RollCall (roll, name) VALUES (104, 'Jill');
+INSERT INTO o_RollCall (roll, name) VALUES (105, 'Jerry');
+
+
+INSERT INTO N_RollCall (roll, name) VALUES (101, 'John');
+INSERT INTO N_RollCall (roll, name) VALUES (107, 'David');
+INSERT INTO N_RollCall (roll, name) VALUES (108, 'Emily');
+INSERT INTO N_RollCall (roll, name) VALUES (102, 'Jane');
+INSERT INTO N_RollCall (roll, name) VALUES (110, 'Sam');
+
+declare 
+vroll o_RollCall.roll%type;
+vrollexist o_RollCall.roll%type;
+vname o_RollCall.name%type;
+
+cursor ocursor is
+  select * from o_RollCall;
+
+cursor ncursor(rno number,nm varchar) is
+  select roll from N_RollCall where roll=rno and name=nm;
+
+
+begin
+
+open ocursor;
+loop
+ fetch ocursor into vroll,vname;
+ exit when ocursor %notFound;
+ 
+ open ncursor(vroll,vname); 
+ fetch ncursor into vrollexist;
+ 
+  if ncursor %notfound then
+    insert into N_RollCall values(vroll,vname);
+  end if;
+CLOSE ncursor;
+end loop;
+CLOSE ocursor;
+end;
+
+select * from N_RollCall;

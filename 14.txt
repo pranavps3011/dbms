@@ -1,0 +1,14 @@
+db.createCollection("mytest")
+db.mytest.insertMany([{emp_id:1,emp_name:"A",dept_name:"HR",sal:60000},])
+db.mytest.insertMany([{emp_id:2,emp_name:"B",dept_name:"HR",sal:70000},])
+db.mytest.insertMany([{emp_id:3,emp_name:"C",dept_name:"Finance",sal:5000},])
+
+db.mytest.find({sal:{$gt:50000}})
+
+db.mytest.find({sal:{$gt:50000,$lt:80000}})
+
+db.mytest.find({sal:{$gt:60000},dept_name:"HR"})
+
+db.mytest.updateMany({dept_name:"HR"},{$set:{sal:50000,increment:"10%"}})
+
+db.mytest.deleteMany({dept_name:"Finance",sal:{$lt:10000}})

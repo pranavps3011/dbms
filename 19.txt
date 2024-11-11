@@ -1,0 +1,26 @@
+create table tcustomer(
+customer_id number,
+first_name varchar(20)
+);
+
+create table torders(
+order_id number,
+amount number,
+customer_id number
+);
+
+insert into tcustomer values(1,'A');
+insert into tcustomer values(2,'B');
+insert into tcustomer values(3,'C');
+insert into tcustomer values(5,'D');
+
+insert into torders values(1,500,1);
+insert into torders values(3,600,2);
+insert into torders values(5,400,3);
+insert into torders values(6,700,4);
+
+
+select * from tcustomer inner join torders on torders.customer_id=tcustomer.customer_id;
+select * from tcustomer left join torders on torders.customer_id=tcustomer.customer_id;
+select * from tcustomer right join torders on torders.customer_id=tcustomer.customer_id;
+select * from tcustomer full outer join torders on torders.customer_id=tcustomer.customer_id;

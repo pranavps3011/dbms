@@ -1,0 +1,36 @@
+create table t1borrower 
+(
+Rollin int, 
+name varchar (30), 
+dateofissue date,
+nameofbook varchar (30),
+status varchar (1)
+);
+
+create table tLibrary_Audit (
+Rollin int, 
+name varchar (30), 
+dateofissue date, 
+nameofbook varchar (50), 
+status char, 
+ts timestamp
+);
+
+
+INSERT INTO t1borrower VALUES (201, 'Alice Johnson', TO_DATE('2024-01-10', 'YYYY-MM-DD'), 'Intro to Programming', 'I');
+INSERT INTO t1borrower VALUES (202, 'Bob Smith', TO_DATE('2024-01-15', 'YYYY-MM-DD'), 'Database Management', 'I');
+INSERT INTO t1borrower VALUES (203, 'Charlie Brown', TO_DATE('2024-01-05', 'YYYY-MM-DD'), 'Networking Basics', 'R');
+INSERT INTO t1borrower VALUES (204, 'Diana Prince', TO_DATE('2024-01-08', 'YYYY-MM-DD'), 'Operating Systems', 'I');
+INSERT INTO t1borrower VALUES (205, 'Evan Taylor', TO_DATE('2024-01-12', 'YYYY-MM-DD'), 'Software Engineering', 'R');
+
+create or replace trigger mytrigger 
+after 
+delete or update on t1borrower
+for each row
+begin
+insert into tLibrary_Audit values(:old.Rollin,:old.name,:old.dateofissue,:old.nameofbook,:old.status,current_timestamp);
+end;
+
+delete from t1borrower where Rollin=201;
+update t1borrower set status='R' where Rollin=202;
+select * from tLibrary_Audit;

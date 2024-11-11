@@ -1,0 +1,14 @@
+db.createCollection("Bank")
+db.Bank.insertMany([
+  { cust_id: 1, cust_name: "John Doe", branch: "New York", balance: 1500 },
+  { cust_id: 2, cust_name: "Jane Smith", branch: "Los Angeles", balance: 3200 },
+  { cust_id: 3, cust_name: "Emily Johnson", branch: "Chicago", balance: 5000 },
+  { cust_id: 4, cust_name: "Michael Brown", branch: "New York", balance: 1200 },
+  { cust_id: 5, cust_name: "Sarah Lee", branch: "Los Angeles", balance: 7500 }
+]);
+
+var map=function(){emit(this.branch,this.balance)};
+var reduce=function(branch,balance){return Array.sum(balance)};
+db.Bank.mapReduce(map,reduce,{out:"result"})
+
+db.result.find()

@@ -1,0 +1,16 @@
+db.createCollection("Tdb")
+db.Tdb.insertMany([{stud_id:1,stud_name:"Aditya",dept_name:"Comp",marks:50},{stud_id:2,stud_name:"Sham",dept_name:"civil",marks:70}])
+db.Tdb.insertOne({stud_id:3,stud_name:"Aditya",dept_name:"Comp",marks:65})
+db.Tdb.insertOne({stud_id:4,stud_name:"gopal",dept_name:"Chemical",marks:20})
+db.Tdb.insertOne({stud_id:5,stud_name:"A",dept_name:"Chemical",marks:65})
+
+db.Tdb.find({marks:{$gt:50}})
+
+db.Tdb.find({marks:{$gt:50,$lt:80}}
+
+db.Tdb.find({marks:{$gt:60}},dept_name:"Comp")
+
+db.Tdb.updateMany({dept_name:"civil"},{$set:{marks:50}})
+
+db.Tdb.deleteMany({dept_name:"Chemical",marks:{$lt:30}})
+

@@ -1,0 +1,36 @@
+create table temp (
+empId int primary key,
+empName  varchar(10),
+empSal int,
+empDeptId int references tDept(deptId)
+);
+
+create table tDept 
+(
+  deptId int primary key,
+  deptName varchar(20)
+);
+
+INSERT INTO tDept VALUES (30, 'Marketing');
+INSERT INTO tDept VALUES (40, 'Sales');
+INSERT INTO tDept VALUES (10, 'Engineering');
+INSERT INTO tDept VALUES (50, 'Mnfacturing');
+
+INSERT INTO temp VALUES (1, 'A', 15000, 30);
+INSERT INTO temp VALUES (2, 'B', 20000, 40);
+INSERT INTO temp VALUES (3, 'C', 25000, 50);
+INSERT INTO temp VALUES (4, 'D', 22000, 30);
+INSERT INTO temp VALUES (5, 'E', 18000, 50);
+INSERT INTO temp VALUES (6, 'F', 30000, 10);
+
+select * from temp where empdeptid in (30,40,10);
+
+select * from temp where empsal >10000 and empsal<30000;
+
+select count(empId) from temp;
+select empdeptid,count(empId) from temp group by empdeptid;
+
+select empdeptid,avg(empsal) from temp group by empdeptid;
+
+select * from temp order by (empsal) asc;
+

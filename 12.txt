@@ -1,0 +1,37 @@
+package mysqldatabase;
+import java.sql.*;
+
+public class myconnection {
+
+	public static void main(String[] args) {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con=DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","system","123");
+			
+			if(con!=null)
+				System.out.print("Connection esatblished");
+			
+			Statement st=con.createStatement();
+//			st.executeUpdate("create table myconnectiontable (id number,name varchar(20))");
+//			st.executeUpdate("insert into myconnectiontable values(1,'Aditya')");
+//			st.executeUpdate("insert into myconnectiontable values(2,'B')");
+//			st.executeUpdate("insert into myconnectiontable values(3,'C')");
+			
+			ResultSet rs=st.executeQuery("select * from myconnectiontable");
+			while(rs.next()) {
+				System.out.println("\n"+ rs.getInt("id")+" "+rs.getString("name"));
+			}
+			
+			st.executeUpdate("delete from myconnectiontable where id=2");
+			st.executeUpdate("update myconnectiontable set name='sham' where id=3");
+			
+			rs=st.executeQuery("select * from myconnectiontable");
+			while(rs.next()) {
+				System.out.println("\n"+ rs.getInt("id")+" "+rs.getString("name"));
+			}
+		}catch(Exception e) {
+			
+			System.out.print(e);
+		}
+	}
+}

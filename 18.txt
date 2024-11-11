@@ -1,0 +1,66 @@
+package testmongo;
+
+import com.mongodb.*;
+
+public class mymongo {
+
+	public static void main(String[] args) {
+		try {
+			MongoClient mc=new MongoClient("localhost",27017);
+			DB db=mc.getDB("myStud");
+			
+			DBCollection coll=db.getCollection("myStud");
+			
+//			insert(coll,1,"Aditya");
+//			insert(coll,2,"Sham");
+//			display(coll);
+//			
+//			updatedata(coll,2,"gopal");
+//			display(coll);
+//			
+//			deletedata(coll,2);
+//			display(coll);
+			
+		}catch(Exception E) {
+			System.out.print(E);
+		}
+	}
+	
+	static void insert(DBCollection coll,int id, String nm) {
+		BasicDBObject doc=new BasicDBObject();
+		doc.put("id",id);
+		doc.put("name",nm);
+		coll.insert(doc);
+		System.out.println(doc);
+	}
+	
+	static void display(DBCollection coll) {
+		DBCursor data=coll.find();
+		while(data.hasNext()) {
+			System.out.println(data.next());
+		}
+	}
+	
+	static void updatedata(DBCollection coll,int id,String newnm) {
+		BasicDBObject query=new BasicDBObject();
+		query.put("id", id);
+		
+		BasicDBObject updatedata=new BasicDBObject();
+		updatedata.put("name", newnm);
+		
+		BasicDBObject updateObj=new BasicDBObject();
+		updateObj.put("$set", updatedata);
+		
+		coll.update(query, updateObj);
+		
+	}
+	
+	static void deletedata(DBCollection coll,int id) {
+		BasicDBObject query =new BasicDBObject();
+		query.put("id", id);
+		
+		coll.remove(query);
+	}
+
+}
+

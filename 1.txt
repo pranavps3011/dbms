@@ -1,0 +1,23 @@
+create table employee_master(
+emp_id int primary key,
+first_name varchar(20),
+middle_name varchar(20),
+last_name varchar(20),
+department varchar(20),
+manager_id int
+);
+
+create table branch_master(
+branch_id int primary key,
+branch_name varchar(20)
+);
+
+insert into branch_master values(1,'Comp');
+
+insert into employee_master values(1,'Aditya','Ashok','Sadavare','comp',1);
+
+create index emp_index on employee_master(first_name);
+
+create view emp_details as select * from employee_master;
+
+select * from emp_details;

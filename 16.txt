@@ -1,0 +1,47 @@
+db.createCollection("Book")
+
+db.Book.insertMany([
+  {
+    Title: "Book One",
+    Description: "Description of Book One",
+    Author: "Author A",
+    Publisher: "Publisher X",
+    URL: "http://example.com/book1",
+    no_of_likes: 120
+  },
+  {
+    Title: "Book Two",
+    Description: "Description of Book Two",
+    Author: "Author B",
+    Publisher: "Publisher Y",
+    URL: "http://example.com/book2",
+    no_of_likes: 85
+  },
+  {
+    Title: "Book Three",
+    Description: "Description of Book Three",
+    Author: "Author A",
+    Publisher: "Publisher Z",
+    URL: "http://example.com/book3",
+    no_of_likes: 75
+  },
+  {
+    Title: "Book Four",
+    Description: "Description of Book Four",
+    Author: "Author C",
+    Publisher: "Publisher X",
+    URL: "http://example.com/book4",
+    no_of_likes: 90
+  }
+]);
+
+db.Book.find()
+
+db.Book.aggregate([{$group:{_id:"$Author",published:{$sum:1}}}])
+
+db.Book.aggregate([{$group:{_id:"$Author",minlike:{$min:"$no_of_likes"}}}])
+
+db.Book.aggregate([{$group:{_id:"$Author",maxlike:{$max:"$no_of_likes"}}}])
+
+
+

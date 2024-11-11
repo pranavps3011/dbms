@@ -1,0 +1,36 @@
+create table tStudent(
+stud_id int primary key,
+deptnm varchar(20),
+sem int,
+name varchar(20),
+yr int,
+creadits int
+);
+
+create table tteaches(
+teacher_id int primary key,
+teacher_name varchar(20),
+salary int,
+deptnm varchar(20)
+);
+
+INSERT INTO tStudent VALUES (1, 'COMP', 1, 'A', 2024, 20);
+INSERT INTO tStudent VALUES (2, 'COMP', 2, 'B', 2024, 18);
+INSERT INTO tStudent VALUES (3, 'COMP', 3, 'C', 2023, 25);
+INSERT INTO tStudent VALUES (4, 'COMP', 4, 'D', 2023, 22);
+INSERT INTO tStudent VALUES (5, 'COMP', 5, 'E', 2022, 24);
+
+INSERT INTO tteaches VALUES (1, 'A', 1800, 'COMP');
+INSERT INTO tteaches VALUES (2, 'B', 2200, 'IT');
+INSERT INTO tteaches VALUES (3, 'C', 1500, 'COMP');
+INSERT INTO tteaches VALUES (4, 'D', 2500, 'IT');
+INSERT INTO tteaches VALUES (5, 'E', 1700, 'IT');
+
+update tstudent set deptnm='IT' where deptnm='COMP';
+
+select deptnm,MAX(salary) from tteaches group by deptnm;
+
+delete tteaches where salary < 2000;
+
+select deptnm,SUM(salary) from tteaches group by deptnm order by SUM(salary) desc;
+

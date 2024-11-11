@@ -1,0 +1,34 @@
+create table tStud (roll number (4), att number (4), status varchar (1));
+
+create table td_stud (roll number (4), att number (4));
+
+
+INSERT INTO tStud (roll, att, status) VALUES (1001, 45, 'A');
+INSERT INTO tStud (roll, att, status) VALUES (1002, 82, 'A');
+INSERT INTO tStud (roll, att, status) VALUES (1003, 90, 'A');
+INSERT INTO tStud (roll, att, status) VALUES (1004, 65, 'A');
+INSERT INTO tStud (roll, att, status) VALUES (1005, 88, 'A');
+INSERT INTO tStud (roll, att, status) VALUES (1006, 95, 'A');
+
+declare
+  vroll tstud.roll%type;
+  vatt tstud.att%type;
+  
+  cursor mycursor is
+    select roll,att from tstud;  
+begin 
+  open mycursor;
+  
+  loop
+    fetch mycursor into vroll,vatt;
+    exit when mycursor %NOTFOUND;
+    if vatt<75 then 
+      Dbms_output.put_line(vatt);
+      insert into td_stud values(vroll,vatt);
+      update tstud set status='D' where roll=vroll;
+    end if;
+  end loop;
+end;
+
+select * from td_stud;
+select * from tstud;
